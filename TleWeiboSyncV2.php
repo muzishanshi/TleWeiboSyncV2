@@ -204,17 +204,18 @@ function sinav2_post_article($post_ID) {
 				$img = $filename;
 			}
 		}
-		*/
+		
 		/* 同步微博 */
 		$c = new SaeTClientV2( $weibosync_configs["weiboappkey"] , $weibosync_configs["weiboappsecret"] , SINAV2_ACCESS_TOKEN );
 		$res=$c->share($postData,$img);
+		/*
 		if(file_exists($filename)){
 			@unlink($filename);
 		}
-		
+		*/
 		/* 若同步成功，则给新增自定义栏目weibo_sync，避免以后更新文章重复同步 */
 		add_post_meta($post_ID, 'weibo_sync', 1, true);
-		var_dump($res);die();
+		//var_dump($res);die();
 	}
 }
 /*获取微博字符长度函数*/

@@ -21,4 +21,10 @@ Q群：770956878<br />
 Github：https://github.com/muzishanshi/TleWeiboSyncV2
 
 #### 更新记录：
-2018-09-01 第一版本实现
+2019-01-18 V1.0.2
+	
+	修复了因为马虎导致不能发图片的bug，并测试支持wordpress 5.0以上版本。
+
+2018-09-01 V1.0.2
+
+	第一版本实现

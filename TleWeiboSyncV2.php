@@ -3,7 +3,7 @@
 Plugin Name: TleWeiboSyncV2
 Plugin URI: https://github.com/muzishanshi/TleWeiboSyncV2
 Description:  基于新浪微博API(OAuth2.0授权认证)，可以将在WordPress内发布的文章同步到指定的新浪微博账号。针对2017年6月26日微博API更新有所调整。
-Version: 1.0.1
+Version: 1.0.2
 Author: 二呆
 Author URI: http://www.tongleer.com
 License: 
@@ -77,7 +77,7 @@ function tle_weibo_sync_options(){
 		<h2>微博同步设置:</h2>
 		作者：<a href="http://www.tongleer.com" target="_blank" title="">二呆</a><br />
 		<?php
-		$version=file_get_contents('http://api.tongleer.com/interface/TleWeiboSyncV2.php?action=update&version=1');
+		$version=file_get_contents('http://api.tongleer.com/interface/TleWeiboSyncV2.php?action=update&version=2');
 		echo $version;
 		?>
 		<form method="get" action="">
@@ -181,41 +181,13 @@ function sinav2_post_article($post_ID) {
 			$timthumb_src = wp_get_attachment_image_src( get_post_thumbnail_id($post_ID), 'full' ); 
 			$img = $timthumb_src[0];
 		} else if(function_exists('catch_first_image')) {
-			$img = catch_first_image(); 
+			$img = catch_first_image($get_post_centent); 
 		}
-		/*
-		preg_match_all("/\<img.*?src\=\"(.*?)\"[^>]*>/i", stripslashes($get_post_centent), $matchpic);
-		$imgurl=@$matchpic[1][0];
-		$filename = dirname(__FILE__).'/sinatempimg.png';
-		$img=false;
-		if(!empty($imgurl)){
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $imgurl);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-			$file = curl_exec($ch);
-			curl_close($ch);
-			//$filename = pathinfo($imgurl, PATHINFO_BASENAME);
-			$resource = fopen($filename, 'a');
-			fwrite($resource, $file);
-			fclose($resource);
-			$filesize=abs(filesize($filename));
-			if($filesize<5120000){
-				$img = $filename;
-			}
-		}
-		
 		/* 同步微博 */
 		$c = new SaeTClientV2( $weibosync_configs["weiboappkey"] , $weibosync_configs["weiboappsecret"] , SINAV2_ACCESS_TOKEN );
 		$res=$c->share($postData,$img);
-		/*
-		if(file_exists($filename)){
-			@unlink($filename);
-		}
-		*/
 		/* 若同步成功，则给新增自定义栏目weibo_sync，避免以后更新文章重复同步 */
 		add_post_meta($post_ID, 'weibo_sync', 1, true);
-		//var_dump($res);die();
 	}
 }
 /*获取微博字符长度函数*/
@@ -254,7 +226,7 @@ function arr_split_zh($tempaddtext){
 }
 /* 抓取文章第一张图片作为特色图片（已加上是否已存在判断，可放心添加到functions.php） */
 if(!function_exists('catch_first_image')){
-	function catch_first_image() {
+	function catch_first_image($get_post_centent) {
 		global $post, $posts;
 		$first_img = '';
 		ob_start();

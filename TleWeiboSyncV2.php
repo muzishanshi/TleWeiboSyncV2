@@ -48,7 +48,7 @@ function tle_weibo_sync_redirect() {
 }
 
 if(isset($_GET['t'])){
-    if($_GET['t'] == 'config'){
+    if($_GET['t'] == 'configTleWeiboSyncV2'){
         update_option('tle_weibo_sync', array('weiboappkey' => $_REQUEST['weiboappkey'], 'weiboappsecret' => $_REQUEST['weiboappsecret'], 'weibocallback' => $_REQUEST['weibocallback']));
     }
 	if($_GET['t'] == 'weibosynclogin'){
@@ -91,7 +91,7 @@ function tle_weibo_sync_options(){
 				<input type="text" name="weibocallback" value="<?=$weibosync_configs["weibocallback"];?>" required placeholder="回调地址" size="50" />
 			</p>
 			<p>
-				<input type="hidden" name="t" value="config" />
+				<input type="hidden" name="t" value="configTleWeiboSyncV2" />
 				<input type="hidden" name="page" value="tle-weibo-sync" />
 				<input type="submit" value="第一步：修改配置" />
 			</p>

@@ -88,7 +88,8 @@ function tle_weibo_sync_options(){
 				<input type="text" name="weiboappsecret" value="<?=$weibosync_configs["weiboappsecret"];?>" required placeholder="App Secret" size="50" />
 			</p>
 			<p>
-				<input type="text" name="weibocallback" value="<?=$weibosync_configs["weibocallback"];?>" required placeholder="回调地址" size="50" />
+				<input type="text" name="weibocallback" value="<?=$weibosync_configs["weibocallback"];?>" required placeholder="回调地址" size="50" /><br />
+				<small><?=home_url();?>/wp-admin/options-general.php?page=tle-weibo-sync</small>
 			</p>
 			<p>
 				<input type="hidden" name="t" value="configTleWeiboSyncV2" />
